@@ -1,11 +1,11 @@
 {
-  "name": "goit-hw-js-11",
+  "name": "goit-hw-js-12",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/goit-HW-js-11/",
+    "build": "vite build --base=/goit-HW-js-12/",
     "preview": "vite preview"
   },
   "devDependencies": {
