@@ -1,40 +1,25 @@
-export function appendHitsMarkup(data, container) {
-  const markup = data
-    .map(
-      item =>
-        `<li class="gallery-item">
-          <a href="${item.largeImageURL}">
-            <img src="${item.webformatURL}" alt="${item.tags}" width="360" height="200"/>
+import { refs } from "../main";
+
+function imageTemplate(obj){
+  const {largeImageURL, webformatURL, tags, likes, views, comments, downloads } = obj;
+return `<li class="gallery-item">
+          <a href="${largeImageURL}">
+            <img src="${webformatURL}" alt="${tags}" width="360" height="200" loading ="lazy"/>
             <div class="text-content-box">
-                <p class="image-text"><span class="image-title">Likes</span> ${item.likes}</p>
-                <p class="image-text"><span class="image-title">Views</span> ${item.views}</p>
-                <p class="image-text"><span class="image-title">Comments</span> ${item.comments}</p>
-                <p class="image-text"><span class="image-title">Downloads</span> ${item.downloads}</p>
+                <p class="image-text"><span class="image-title">Likes</span> ${likes}</p>
+                <p class="image-text"><span class="image-title">Views</span> ${views}</p>
+                <p class="image-text"><span class="image-title">Comments</span> ${comments}</p>
+                <p class="image-text"><span class="image-title">Downloads</span> ${downloads}</p>
             </div>
         </a>
       </li>`
-    )
-    .join('');
+};
 
-  container.insertAdjacentHTML('beforeend', markup);
-}
+ function imagesTemplate(arr){
+return arr.map(imageTemplate).join('');
+};
 
-export function clearHitsContainer(container) {
-  container.innerHTML = '';
-}
-
-
-
-
-
-
-// export function loaderF() {                                  // Створюємо лоадер
-//   const spanElement = document.createElement('span');
-//   areaForLoader.appendChild(spanElement);
-//   spanElement.classList.add('loader');
-// }
-
-// export function spanElementRem() {                           // Видаляємо лоадер
-//   const loaderF = document.querySelector('.loader');
-//   loaderF.remove();
-// }
+export function renderImages(arr){
+  const markup = imagesTemplate(arr);
+  refs.imagesContainer.insertAdjacentHTML('beforeend', markup);
+};

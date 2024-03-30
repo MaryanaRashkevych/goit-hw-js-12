@@ -21,21 +21,13 @@
       </div>
       <button type="submit" class="submit-btn">Search</button>
     </form>
-
-    <span class="waiting-text js-waiting-text is-hidden" aria-hidden="true"
-      >Loading images, please wait...</span
-    >
-
+     
     <div class="gallery-container">
       <ul class="images js-images-container"></ul>
     </div>
-
-    <!-- <form class="formForInput">
-      <input class="inputOfWords" name="animal" />
-      <button class="buttonForInput">Search</button>
-    </form>
-    <div class="areaForLoader"></div>
-    <ul class="userList gallery"></ul> -->
+    <span class="loader hidden" role="status" aria-hidden="true"></span>
+    <button class="btn-show-more  js-waiting-text hidden" aria-hidden="true"
+    >Load more images</button>
   <script src="./main.js" type = "module" defer></script>
  
   </body>
