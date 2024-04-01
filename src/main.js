@@ -1,7 +1,7 @@
 import { renderImages } from './js/render-functions';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import iziToast from 'izitoast';                                 
+import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import { getImages } from './js/pixabay-api';
 
@@ -19,43 +19,78 @@ export const refs = {
 
 refs.searchForm.addEventListener('submit', onFormSubmit);
 
+async function onFormSubmit(e) {
+  e.preventDefault();
+  query = e.target.elements.query.value.trim();
+  refs.imagesContainer.innerHTML = '';
 
-async function onFormSubmit(e){
-     e.preventDefault();
-     query = e.target.elements.query.value.trim();
-     refs.imagesContainer.innerHTML ='';
-    
-  
-     currentPage = 1;
-     showLoader();
-     const data = await getImages(query, currentPage);
-  
-     if (!checkValidity(query, data.hits)) {
-      hideLoader();
-      return; 
-    }
-     maxPage = Math.ceil(data.totalHits / pageSize);
-     renderImages(data.hits);
-     initializeSimpleLightbox();
-     hideLoader();
-     checkBtnStatus();
-     e.target.reset();
-
-  };
-
-refs.btnShowMore.addEventListener('click', onLoadMoreClick)
-
-async function onLoadMoreClick(){
-  currentPage += 1;
+  currentPage = 1;
   showLoader();
-  try{const data = await getImages(query, currentPage);
-  renderImages(data.hits);} catch(err){console.log(err);
-  initializeSimpleLightbox();
+  const data = await getImages(query, currentPage);
+
+  if (!checkValidity(query, data.hits)) {
+    hideLoader();
+    return;
   }
+
+  maxPage = Math.ceil(data.totalHits / pageSize);
+  renderImages(data.hits);
+  initializeSimpleLightbox();
   hideLoader();
   checkBtnStatus();
-};
+  e.target.reset();
+}
 
+refs.btnShowMore.addEventListener('click', onLoadMoreClick);
+
+
+// async function onLoadMoreClick() {
+//   currentPage += 1;
+//   showLoader();
+
+//   try {
+//     const data = await getImages(query, currentPage);
+//     renderImages(data.hits);
+    
+//     // Wait for images to be rendered before initializing SimpleLightbox
+//     await new Promise((resolve) => setTimeout(resolve, 0));
+//     initializeSimpleLightbox();
+//   } catch (err) {
+//     console.log(err);
+//   }
+
+//   hideLoader();
+//   checkBtnStatus();
+// }
+
+async function onLoadMoreClick() {
+  currentPage += 1;
+  showLoader();
+
+  try {
+    const data = await getImages(query, currentPage);
+    renderImages(data.hits);
+    
+    // Wait for images to be rendered before initializing SimpleLightbox
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    initializeSimpleLightbox();
+
+    if (currentPage >= maxPage) {
+      hideLoadMore();
+      iziToast.show({
+        color: 'green',
+        message: `Sorry, you have reached the end of collection.`,
+        position: 'topCenter',
+        timeout: 3000,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+  hideLoader();
+  checkBtnStatus();
+}
 function checkValidity(query, hits) {
   if (!query.trim()) {
     iziToast.show({
@@ -72,41 +107,39 @@ function checkValidity(query, hits) {
       position: 'topCenter',
       timeout: 3000,
     });
-    return false; 
+    return false;
   }
-  return true; 
+  return true;
 }
 
+function showLoadMore() {
+  refs.btnShowMore.classList.remove('hidden');
+}
 
-function showLoadMore(){
-refs.btnShowMore.classList.remove('hidden');
-};
-
-function hideLoadMore(){
+function hideLoadMore() {
   refs.btnShowMore.classList.add('hidden');
-};
+}
 
-function showLoader(){
-  refs.loader.classList.remove('hidden')
-};
+function showLoader() {
+  refs.loader.classList.remove('hidden');
+}
 
-function hideLoader(){
-  refs.loader.classList.add('hidden')
-};
+function hideLoader() {
+  refs.loader.classList.add('hidden');
+}
 
-function checkBtnStatus(){
-  if(currentPage >= maxPage){
+function checkBtnStatus() {
+  if (currentPage >= maxPage) {
     hideLoadMore();
   } else {
     showLoadMore();
   }
 }
 function initializeSimpleLightbox() {
-    const simpleLightbox = new SimpleLightbox('.images a', {
-      captionPosition: 'bottom',
-      captionDelay: 250,
-      captionsData: 'alt',
-    });
-    simpleLightbox.refresh();
-  }
-  
+  const simpleLightbox = new SimpleLightbox('.images a', {
+    captionPosition: 'bottom',
+    captionDelay: 250,
+    captionsData: 'alt',
+  });
+  simpleLightbox.refresh();
+}

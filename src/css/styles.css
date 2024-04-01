@@ -148,8 +148,7 @@ img {
 .iziToast-close {
   color: white !important;
 }
-
-
+ 
 .btn-show-more {
     background-color: #4e75ff;
     color: white;
@@ -162,8 +161,44 @@ img {
     transition: 0.4s;
     display:  block;
     margin: 0 auto;
-  
 }
-.hidden {
+.loader{
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: block;
+  margin:15px auto;
+  position: relative;
+  box-sizing: border-box;
+  animation: zeroRotation 1s linear infinite alternate;
+}
+
+.hidden{
   display: none;
 }
+.loader::after,
+.loader::before {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgb(22, 155, 165);
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, 50%);
+  border-radius: 50%;
+}
+.loader::before {
+  left: auto;
+  right: 0;
+  transform: translate(50%, 100%);
+}
+@keyframes zeroRotation {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    transform: scale(0) rotate(360deg);
+  }
+} 
