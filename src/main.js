@@ -40,7 +40,7 @@ async function onFormSubmit(e) {
   hideLoader();
   checkBtnStatus();
   e.target.reset();
-  SimpleLightbox.refresh();
+
 }
 
 refs.btnShowMore.addEventListener('click', onLoadMoreClick);
@@ -58,7 +58,7 @@ async function onLoadMoreClick() {
     // Wait for images to be rendered before initializing SimpleLightbox
     await new Promise((resolve) => setTimeout(resolve, 0));
     initializeSimpleLightbox();
-    SimpleLightbox.refresh();
+    
 
     if (currentPage >= maxPage) {
       hideLoadMore();
@@ -127,5 +127,5 @@ function initializeSimpleLightbox() {
     captionDelay: 250,
     captionsData: 'alt',
   });
-  simpleLightbox.refresh();
+ simpleLightbox.refresh();
 }
