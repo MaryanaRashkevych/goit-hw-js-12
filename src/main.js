@@ -30,6 +30,7 @@ async function onFormSubmit(e) {
 
   if (!checkValidity(query, data.hits)) {
     hideLoader();
+    hideLoadMore();
     return;
   }
 
@@ -39,29 +40,12 @@ async function onFormSubmit(e) {
   hideLoader();
   checkBtnStatus();
   e.target.reset();
+  SimpleLightbox.refresh();
 }
 
 refs.btnShowMore.addEventListener('click', onLoadMoreClick);
 
 
-// async function onLoadMoreClick() {
-//   currentPage += 1;
-//   showLoader();
-
-//   try {
-//     const data = await getImages(query, currentPage);
-//     renderImages(data.hits);
-    
-//     // Wait for images to be rendered before initializing SimpleLightbox
-//     await new Promise((resolve) => setTimeout(resolve, 0));
-//     initializeSimpleLightbox();
-//   } catch (err) {
-//     console.log(err);
-//   }
-
-//   hideLoader();
-//   checkBtnStatus();
-// }
 
 async function onLoadMoreClick() {
   currentPage += 1;
@@ -74,6 +58,7 @@ async function onLoadMoreClick() {
     // Wait for images to be rendered before initializing SimpleLightbox
     await new Promise((resolve) => setTimeout(resolve, 0));
     initializeSimpleLightbox();
+    SimpleLightbox.refresh();
 
     if (currentPage >= maxPage) {
       hideLoadMore();
@@ -83,6 +68,7 @@ async function onLoadMoreClick() {
         position: 'topCenter',
         timeout: 3000,
       });
+      hideLoadMore();
     }
   } catch (err) {
     console.log(err);
