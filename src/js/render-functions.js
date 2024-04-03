@@ -1,5 +1,13 @@
 import { refs } from "../main";
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
+
+const simpleLightbox = new SimpleLightbox('.images a', {
+  captionPosition: 'bottom',
+  captionDelay: 250,
+  captionsData: 'alt',
+});
 function imageTemplate(obj){
   const {largeImageURL, webformatURL, tags, likes, views, comments, downloads } = obj;
 return `<li class="gallery-item">
@@ -22,4 +30,6 @@ return arr.map(imageTemplate).join('');
 export function renderImages(arr){
   const markup = imagesTemplate(arr);
   refs.imagesContainer.insertAdjacentHTML('beforeend', markup);
+  simpleLightbox.refresh();
 };
+ 

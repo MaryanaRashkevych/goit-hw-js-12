@@ -36,7 +36,7 @@ async function onFormSubmit(e) {
 
   maxPage = Math.ceil(data.totalHits / pageSize);
   renderImages(data.hits);
-  initializeSimpleLightbox();
+  // initializeSimpleLightbox();
   hideLoader();
   checkBtnStatus();
   e.target.reset();
@@ -55,11 +55,6 @@ async function onLoadMoreClick() {
     const data = await getImages(query, currentPage);
     renderImages(data.hits);
     
-    // Wait for images to be rendered before initializing SimpleLightbox
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    initializeSimpleLightbox();
-    
-
     if (currentPage >= maxPage) {
       hideLoadMore();
       iziToast.show({
@@ -68,7 +63,6 @@ async function onLoadMoreClick() {
         position: 'topCenter',
         timeout: 3000,
       });
-      hideLoadMore();
     }
   } catch (err) {
     console.log(err);
@@ -121,11 +115,11 @@ function checkBtnStatus() {
     showLoadMore();
   }
 }
-function initializeSimpleLightbox() {
-  const simpleLightbox = new SimpleLightbox('.images a', {
-    captionPosition: 'bottom',
-    captionDelay: 250,
-    captionsData: 'alt',
-  });
- simpleLightbox.refresh();
-}
+// function initializeSimpleLightbox() {
+//   const simpleLightbox = new SimpleLightbox('.images a', {
+//     captionPosition: 'bottom',
+//     captionDelay: 250,
+//     captionsData: 'alt',
+//   });
+//  simpleLightbox.refresh();
+// }
